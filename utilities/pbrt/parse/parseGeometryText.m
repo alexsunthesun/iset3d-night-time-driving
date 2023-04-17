@@ -298,6 +298,7 @@ while cnt <= length(txt)
             % with its transformation.
             if piBranchIdentity(resCurrent)
                 % fprintf('Identity branch %s\n',resCurrent.name)
+                fprintf('Identity branch %s\n',resCurrent.name);
                 trees = subtrees;
             else
                 fprintf('(Works) Adding resCurrent node named:  %s\n',resCurrent.name);
