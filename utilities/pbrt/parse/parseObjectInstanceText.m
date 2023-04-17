@@ -80,11 +80,23 @@ if ~isempty(objBeginLocs)
 
         % Remove the object lines we processed, creating an empty cell
         txt(objBeginLocs(objIndex):objEndLocs(objIndex)) = cell(objEndLocs(objIndex)-objBeginLocs(objIndex)+1,1);
+
+        % If we have any empty AttributeBegin/End blocks, remove them too.
+
     end
     
     % We remove the empty cells which were created as we removed the
     % objects.
     txt = txt(~cellfun('isempty',txt));
+
+    % Remove empty Begin/End blocks
+    attBeginLocs = find(contains(txt,'AttributeBegin'));
+    attEndLocs = find(contains(txt,'AttributeEnd'));
+    for ii=1:numel(attBeginLocs)
+        if attBeginLocs(ii) == attEndLocs(ii) - 1
+            fprintf('**** Empty AttBegin/End block %d',attBeginLocs(ii));
+        end
+    end
     disp('Finished Object processing.');
 end
 
