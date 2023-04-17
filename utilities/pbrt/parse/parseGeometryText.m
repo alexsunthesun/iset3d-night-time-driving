@@ -154,7 +154,7 @@ while cnt <= length(txt)
             strcmp(currentLine(1),'#')
         
         [name, sz] = piParseObjectName(currentLine);
-
+        disp(name);
     elseif contains(currentLine, 'ObjectInstance') && ...
             ~strcmp(currentLine(1),'#')
         % The object instance name will be assigned to a branch node 
@@ -300,9 +300,9 @@ while cnt <= length(txt)
                 % fprintf('Identity branch %s\n',resCurrent.name)
                 trees = subtrees;
             else
-                fprintf('Adding resCurrent node named:  %s\n',resCurrent.name);
+                fprintf('(Works) Adding resCurrent node named:  %s\n',resCurrent.name);
                 trees = tree(resCurrent);
-                fprintf('to with subtrees name first node ')
+                fprintf('with subtree first node name ')
                 for ii = 1:numel(subtrees)
                     fprintf('%d %s \n',ii,subtrees(ii).Node{1}.name);
                     trees = trees.graft(1, subtrees(ii));
