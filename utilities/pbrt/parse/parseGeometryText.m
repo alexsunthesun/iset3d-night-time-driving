@@ -300,8 +300,11 @@ while cnt <= length(txt)
                 % fprintf('Identity branch %s\n',resCurrent.name)
                 trees = subtrees;
             else
+                fprintf('Adding resCurrent node named:  %s\n',resCurrent.name);
                 trees = tree(resCurrent);
+                fprintf('to with subtrees name first node ')
                 for ii = 1:numel(subtrees)
+                    fprintf('%d %s \n',ii,subtrees(ii).Node{1}.name);
                     trees = trees.graft(1, subtrees(ii));
                 end
             end
