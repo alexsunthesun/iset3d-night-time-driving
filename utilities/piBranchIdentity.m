@@ -16,4 +16,6 @@ if isequal(node.scale{1},[1 1 1]) && ...
     bool = true;
 end
 
+fprintf('branchidentity %s %d\n',node.name,bool);
+
 end
