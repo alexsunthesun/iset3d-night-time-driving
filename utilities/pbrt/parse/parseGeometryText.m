@@ -203,6 +203,9 @@ while cnt <= length(txt)
             lght{end+1} = currentLine; %#ok<AGROW>
         end
 
+    elseif  piContains(currentLine,'ReverseOrientation')
+        fprintf('Ignoring ReverseOrientation: %s\n', currentLine);
+
     elseif piContains(currentLine,'Shape') && ~strcmp(currentLine(1),'#')
         % Shape - Created below.  Why do we allow a cell array of
         % multiple shapes? 

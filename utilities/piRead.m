@@ -235,6 +235,7 @@ end
 if ~isempty(thisR.assets)
     oNames = thisR.get('object names no id');
 
+    
     % Make unique names
     if numel(oNames) ~= numel(unique(oNames))
         idx = thisR.get('objects');
@@ -244,9 +245,24 @@ if ~isempty(thisR.assets)
 
         % make them unique here
         oNames = matlab.lang.makeUniqueStrings(oNames);
+        
+        % This for loop takes 0.226 sec
+        assets = thisR.assets;
+        for ii=1:length(idx)
+            thisNode = assets.Node{idx(ii)};
+            thisNode.name = sprintf('%s_O',oNames{ii});
+            assets.set(idx(ii),thisNode);
+        end
+        thisR.assets = assets;
+
+        %{
+        % N.B.  This for loop takes 30 sec.  Hmmm.  Fix the call
+        % via thisR.set. 
         for ii=1:length(idx)
             thisR.set('asset',idx(ii),'name',sprintf('%s_O',oNames{ii}));
         end
+        toc
+        %}
         thisR.assets.uniqueNames;
     end
 end
