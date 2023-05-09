@@ -139,6 +139,10 @@ if ischar(renderType), renderType = {renderType}; end
 % If the user has sent in a dockerWrapper (ourDocker) we use it
 if ~isempty(ourDocker),   renderDocker = ourDocker;
 else, renderDocker = dockerWrapper();
+    outdir = thisR.get('output dir');
+    if ~contains(outdir,renderDocker.relativeScenePath)
+        renderDocker.relativeScenePath = fileparts(outdir);
+    end
 end
 
 %% Set up the rendering type.
