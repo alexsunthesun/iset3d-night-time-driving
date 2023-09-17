@@ -14,20 +14,17 @@ macbeth = piCreateMacbethChart();
 macbeth.set('pixel samples', 128);
 
 % Define rendering parameters 
-%{
+
 dw = dockerWrapper('dockerContainerName','digitalprodev/pbrt-v4-gpu',...
     'localRender',false,...
     'gpuRendering',false,...
     'remoteMachine','mux.stanford.edu',...
     'remoteUser','henryk',...
     'remoteRoot','/home/henryk',...
-    'remoteImage','digitalprodev/pbrt-v4-cpu');
-%}
+    'remoteImage','digitalprodev/pbrt-v4-cpu',...
+    'relativeScenePath','/iset3d/');
 
-macbethScene = piWRS(macbeth, 'ourDocker', dockerWrapper, 'show', false, 'meanluminance', -1);
-rgb = sceneGet(macbethScene,'srgb');
-figure; 
-imshow(rgb);
+macbethScene = piWRS(macbeth, 'ourDocker', dw, 'meanluminance', -1);
 
 %%
 % HB created a full representation model of scattering that has a number of
@@ -60,11 +57,9 @@ imshow(rgb);
 % format that piWrite knows what to do with it.
 underwaterMacbeth = piSceneSubmerge(macbeth, water, 'sizeX', 50, 'sizeY', 50, 'sizeZ', 50);
 underwaterMacbeth.set('outputfile',fullfile(piRootPath,'local','UnderwaterMacbeth','UnderwaterMacbeth.pbrt'));
+underwaterMacbeth = sceneSet(underwaterMacbeth,'name', 'baselineWater');
 
-uwMacbethScene = piWRS(underwaterMacbeth,'ourDocker', dockerWrapper, 'show', false, 'meanluminance', -1);
-
-rgb = sceneGet(uwMacbethScene,'srgb');
-figure; imshow(rgb);
+piWRS(underwaterMacbeth, 'ourDocker', dw, 'meanluminance', -1);
 
 %% Let's change a medium parameter - On BW's computer this is OK
 
@@ -77,7 +72,7 @@ for zz = 1:numel(depths)
     sz = underwaterMacbeth.get('asset',idx,'size');
     underwaterMacbeth = sceneSet(underwaterMacbeth,'name',sprintf('Depth %.1f',sz(3)));
 
-    uwMacbethScene    = piWRS(underwaterMacbeth, 'meanluminance', -1);
+    uwMacbethScene    = piWRS(underwaterMacbeth, 'ourDocker', dw, 'meanluminance', -1);
 
 end
 
