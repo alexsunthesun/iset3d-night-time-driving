@@ -49,13 +49,18 @@ thisR.set('asset', cube, 'material name', targetMaterial);
 % Move it farther away and scale it into a 'wall'
 thisR.set('asset', cube, 'translation', [0 0 5]);
 % for 'scale' x is width, y is height
-thisR.set('asset', cube, 'scale', [20 8 1]);
+% wallWidth = 20;
+% wallHeight = 8;
+wallWidth = 20;
+wallHeight = 8;
+thisR.set('asset', cube, 'scale', [wallWidth wallHeight 1]);
 
 %% Add Headlamp
 
 % Use level beam, basically horizon cutoff
 % Other option is 'high beam'
 usePreset = 'level beam';
+% usePreset = 'low beam';
 
 % EARLY experiment with Area light
 %usePreset = 'area';
