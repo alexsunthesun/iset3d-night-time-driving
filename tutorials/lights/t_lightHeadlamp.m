@@ -47,7 +47,11 @@ cube = piAssetSearch(thisR,'object name','Cube');
 thisR.set('asset', cube, 'material name', targetMaterial);
 
 % Move it farther away and scale it into a 'wall'
-thisR.set('asset', cube, 'translation', [0 0 5]);
+
+wallDistance = 63 * 1/12 * 1/3.28; % 5'3" to meters
+% wallDistance = 5;
+
+thisR.set('asset', cube, 'translation', [0 0 wallDistance]);
 % for 'scale' x is width, y is height
 % wallWidth = 20;
 % wallHeight = 8;
@@ -59,7 +63,10 @@ thisR.set('asset', cube, 'scale', [wallWidth wallHeight 1]);
 
 % Use level beam, basically horizon cutoff
 % Other option is 'high beam'
-usePreset = 'level beam';
+
+% we created the 'cheap-led-beam' and 'cheap-halogen-beam profiles
+% usePreset = 'cheap-led-beam';
+usePreset = 'cheap-halogen-beam';
 % usePreset = 'low beam';
 
 % EARLY experiment with Area light
@@ -100,6 +107,13 @@ thisR.show('lights');
 
 %%
 thisR.set('render type',{'radiance','depth','albedo'});
+
+% add this line to render the scene onec first to get luminance values
+scene = piRender(thisR,'mean luminance',-1, 'do_denoise','exr_albedo');
+clear luminance
+clear meanLuminance
+[luminance, meanLuminance] = sceneCalculateLuminance(scene);
+
 if ~ismac %code to add denoising for benchmarking
     piWrite(thisR);
     scene = piRender(thisR,'mean luminance',-1, 'do_denoise','exr_albedo');
